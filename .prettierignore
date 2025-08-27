@@ -1,0 +1,6 @@
+/dist
+/.git
+/.idea
+/.vscode
+/.expo
+node_modules

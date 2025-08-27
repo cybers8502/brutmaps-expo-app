@@ -1,0 +1,8 @@
+{
+  "ignore_dirs": [
+    "android/app/build",
+    "ios/build",
+    "node_modules/**/android/build",
+    "node_modules/**/ios/build"
+  ]
+}
