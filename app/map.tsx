@@ -1,9 +1,9 @@
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import Mapbox, {Camera, MapView} from '@rnmapbox/maps';
 import {env} from '@/lib/env';
 import useFetchMapDetails from '@/hooks/useFetchMapDetails';
 import MapLayers from '@/components/MapLayers/MapLayers';
-import {useRef, useState} from 'react';
+import {useCallback, useRef, useState} from 'react';
 import {GeoJSONFeature} from '@/components/MapLayers/MapLayers.interface';
 import SightBottomSheet from '@/components/SightBottomSheet/SightBottomSheet';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -13,20 +13,29 @@ Mapbox.setAccessToken(env.MAPBOX_PUBLIC_TOKEN || '');
 export default function MapScreen() {
   const {featureCollection, isLoading, isError} = useFetchMapDetails();
   const [selected, setSelected] = useState<GeoJSONFeature | null>(null);
-  const [, setStyleLoaded] = useState(false);
+  const [styleLoaded, setStyleLoaded] = useState(false);
   const cameraRef = useRef<Camera>(null);
 
-  const handleFeaturePress = (feature: GeoJSONFeature) => {
-    setSelected(feature);
-    const coords = (feature.geometry as any).coordinates as [number, number];
-    cameraRef.current?.setCamera({
-      centerCoordinate: coords,
-      zoomLevel: 14,
-      animationDuration: 500,
-    });
-  };
+  const handleStyleLoaded = useCallback(() => {
+    setStyleLoaded(true);
+  }, []);
 
-  const onStyle = () => setStyleLoaded(true);
+  const handleFeaturePress = useCallback(
+    (feature: GeoJSONFeature) => {
+      setSelected(feature);
+
+      if (!styleLoaded) return;
+
+      const coords = feature.geometry.coordinates;
+
+      cameraRef.current?.setCamera({
+        centerCoordinate: coords,
+        zoomLevel: 14,
+        animationDuration: 500,
+      });
+    },
+    [styleLoaded],
+  );
 
   if (isError) {
     return <Text>Server Error</Text>;
@@ -38,7 +47,7 @@ export default function MapScreen() {
         <MapView
           styleURL={'mapbox://styles/mapbox/dark-v11'}
           style={StyleSheet.absoluteFillObject}
-          onDidFinishLoadingStyle={onStyle}
+          onDidFinishLoadingStyle={handleStyleLoaded}
           surfaceView={false}>
           <Camera
             ref={cameraRef}
@@ -52,7 +61,7 @@ export default function MapScreen() {
             pitch={0}
             animationDuration={0}
           />
-          {!isLoading && (
+          {!isLoading && styleLoaded && (
             <MapLayers featureCollection={featureCollection} onPressFeature={handleFeaturePress} />
           )}
         </MapView>
