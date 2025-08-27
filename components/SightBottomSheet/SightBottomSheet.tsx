@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Dimensions, StyleSheet, View, Text} from 'react-native';
 import Animated, {runOnJS, useAnimatedStyle, useSharedValue, withSpring} from 'react-native-reanimated';
-import {Gesture, GestureDetector, GestureHandlerRootView} from 'react-native-gesture-handler';
+import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import useFetchObjectPost from '@/hooks/useFetchObjectPost';
 import DescriptionBlock from '@/components/DescriptionBlock/DescriptionBlock';
 import GalleryFlatList from '@/components/GalleryFlatList/GalleryFlatList';
@@ -50,39 +50,33 @@ export default function SightBottomSheet({featureSlug, visible, onClose}: SightB
   const {title, address, topGallery, description} = objectPost;
 
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <Animated.View style={[styles.sheet, style]}>
-        <GestureDetector gesture={gesture}>
-          <View collapsable={false}>
-            <Header title={title} address={address} onClose={onClose} />
-          </View>
-        </GestureDetector>
-
-        <View style={{height: 220, marginBottom: 16}}>
-          {topGallery?.length && <GalleryFlatList gallery={topGallery} />}
+    <Animated.View style={[styles.sheet, style]}>
+      <GestureDetector gesture={gesture}>
+        <View collapsable={false}>
+          <Header title={title} address={address} onClose={onClose} />
         </View>
+      </GestureDetector>
 
-        <View style={{paddingHorizontal: 16}}>
-          <Text style={styles.secondText}>Contributed by: </Text>
-          {description && <DescriptionBlock description={description} />}
-        </View>
-      </Animated.View>
-    </GestureHandlerRootView>
+      <View style={{height: 220, marginBottom: 16}}>
+        {topGallery?.length && <GalleryFlatList gallery={topGallery} />}
+      </View>
+
+      <View style={{paddingHorizontal: 16}}>
+        <Text style={styles.secondText}>Contributed by: </Text>
+        {description && <DescriptionBlock description={description} />}
+      </View>
+    </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
   sheet: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
+    width: '100%',
     height: SCREEN_HEIGHT,
     paddingVertical: 16,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     backgroundColor: '#1C1C1C',
-    zIndex: 2,
   },
   secondText: {
     marginBottom: 8,

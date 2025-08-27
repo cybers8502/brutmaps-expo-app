@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     right: 8,
     padding: 4,
     zIndex: 1,
+    elevation: 1,
   },
   closeText: {
     color: '#fff',

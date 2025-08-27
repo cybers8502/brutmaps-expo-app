@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     resizeMode: 'cover',
     zIndex: 1,
+    elevation: 1,
     backgroundColor: '#ccc',
   },
   figcaptionWrap: {
@@ -62,6 +63,7 @@ const styles = StyleSheet.create({
     paddingRight: 4,
     backgroundColor: 'rgba(45, 45, 45, 0.8)',
     zIndex: 2,
+    elevation: 2,
   },
   figcaption: {
     fontSize: 10,
