@@ -1,7 +1,7 @@
 import {SafeAreaView, StyleSheet, Text} from 'react-native';
 import Mapbox, {Camera, MapView} from '@rnmapbox/maps';
 import {env} from '@/lib/env';
-import useFetchMapDetails from '@/hooks/useFetchMapDetails';
+import {useFetchMapDetails} from '@/hooks/useFetchMapDetails';
 import MapLayers from '@/components/MapLayers/MapLayers';
 import {useCallback, useRef, useState} from 'react';
 import {GeoJSONFeature} from '@/components/MapLayers/MapLayers.interface';
@@ -10,7 +10,7 @@ import SightBottomSheet from '@/components/SightBottomSheet/SightBottomSheet';
 Mapbox.setAccessToken(env.MAPBOX_PUBLIC_TOKEN || '');
 
 export default function MapScreen() {
-  const {featureCollection, isLoading, isError} = useFetchMapDetails();
+  const {data, isLoading, isError} = useFetchMapDetails();
   const [selected, setSelected] = useState<GeoJSONFeature | null>(null);
   const [styleLoaded, setStyleLoaded] = useState(false);
   const cameraRef = useRef<Camera>(null);
@@ -60,7 +60,7 @@ export default function MapScreen() {
           animationDuration={0}
         />
         {!isLoading && styleLoaded && (
-          <MapLayers featureCollection={featureCollection} onPressFeature={handleFeaturePress} />
+          <MapLayers featureCollection={data?.featureCollection} onPressFeature={handleFeaturePress} />
         )}
       </MapView>
       <SightBottomSheet

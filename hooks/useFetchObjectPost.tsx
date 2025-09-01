@@ -1,7 +1,6 @@
-import {useEffect, useState, useCallback} from 'react';
-import {useLocalSearchParams} from 'expo-router';
 import {env} from '@/lib/env';
 import apiRoutes from '@/utils/apiRoutes';
+import {useApiQuery} from '@/hooks/useApiQuery';
 
 interface ImageAuthor {
   id: number;
@@ -39,38 +38,8 @@ export interface ObjectPost {
   topGallery: ImageItem[];
 }
 
-interface ResponseData {
-  status: string;
-  data?: ObjectPost;
-  message?: string;
-}
+export function useFetchObjectPost(sightSlug: string) {
+  const url = `${env.API_BASE_URL}${apiRoutes.objectsPost}/${sightSlug}`;
 
-export default function useFetchObjectPost(sightSlug: string) {
-  const [data, setData] = useState<ObjectPost | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
-
-  const fetchData = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const url = `${env.API_BASE_URL}${apiRoutes.objectsPost}/${sightSlug}`;
-      const res = await fetch(url);
-      const json: ResponseData = await res.json();
-      if (json.status === 'success' && json.data) {
-        setData(json.data);
-      } else {
-        throw new Error(json.message || 'Failed to fetch map data');
-      }
-    } catch (err) {
-      setError(err as Error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [sightSlug]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  return {objectPost: data, isLoading, isError: error, refetch: fetchData};
+  return useApiQuery<ObjectPost>(['objectPost', sightSlug], url, {enabled: !!sightSlug});
 }

@@ -4,7 +4,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Animated, {useSharedValue} from 'react-native-reanimated';
 import {BottomSheetModal, BottomSheetScrollView} from '@gorhom/bottom-sheet';
 
-import useFetchObjectPost from '@/hooks/useFetchObjectPost';
+import {useFetchObjectPost} from '@/hooks/useFetchObjectPost';
 import DescriptionBlock from '@/components/DescriptionBlock/DescriptionBlock';
 import GalleryFlatList from '@/components/GalleryFlatList/GalleryFlatList';
 import Header from '@/components/SightBottomSheet/Header';
@@ -19,7 +19,7 @@ type Props = {
 };
 
 export default function SightBottomSheet({featureSlug, visible, onClose}: Props) {
-  const {objectPost, isLoading} = useFetchObjectPost(featureSlug);
+  const {data: objectPost, isLoading} = useFetchObjectPost(featureSlug);
   const insets = useSafeAreaInsets();
   const sheetRef = useRef<BottomSheetModal>(null);
 
