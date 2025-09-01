@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text} from 'react-native';
 import Mapbox, {Camera, MapView} from '@rnmapbox/maps';
 import {env} from '@/lib/env';
 import useFetchMapDetails from '@/hooks/useFetchMapDetails';
@@ -6,7 +6,6 @@ import MapLayers from '@/components/MapLayers/MapLayers';
 import {useCallback, useRef, useState} from 'react';
 import {GeoJSONFeature} from '@/components/MapLayers/MapLayers.interface';
 import SightBottomSheet from '@/components/SightBottomSheet/SightBottomSheet';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 Mapbox.setAccessToken(env.MAPBOX_PUBLIC_TOKEN || '');
 
@@ -42,36 +41,34 @@ export default function MapScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <GestureHandlerRootView>
-        <MapView
-          styleURL={'mapbox://styles/mapbox/dark-v11'}
-          style={StyleSheet.absoluteFillObject}
-          onDidFinishLoadingStyle={handleStyleLoaded}
-          surfaceView={false}>
-          <Camera
-            ref={cameraRef}
-            defaultSettings={{
-              centerCoordinate: [2.347146829343072, 48.86199106320665],
-              zoomLevel: 10,
-              pitch: 0,
-            }}
-            centerCoordinate={[2.347146829343072, 48.86199106320665]}
-            zoomLevel={10}
-            pitch={0}
-            animationDuration={0}
-          />
-          {!isLoading && styleLoaded && (
-            <MapLayers featureCollection={featureCollection} onPressFeature={handleFeaturePress} />
-          )}
-        </MapView>
-        <SightBottomSheet
-          featureSlug={selected?.properties.slug || ''}
-          visible={!!selected}
-          onClose={() => setSelected(null)}
+    <SafeAreaView style={styles.container}>
+      <MapView
+        styleURL={'mapbox://styles/mapbox/dark-v11'}
+        style={StyleSheet.absoluteFillObject}
+        onDidFinishLoadingStyle={handleStyleLoaded}
+        surfaceView={false}>
+        <Camera
+          ref={cameraRef}
+          defaultSettings={{
+            centerCoordinate: [2.347146829343072, 48.86199106320665],
+            zoomLevel: 10,
+            pitch: 0,
+          }}
+          centerCoordinate={[2.347146829343072, 48.86199106320665]}
+          zoomLevel={10}
+          pitch={0}
+          animationDuration={0}
         />
-      </GestureHandlerRootView>
-    </View>
+        {!isLoading && styleLoaded && (
+          <MapLayers featureCollection={featureCollection} onPressFeature={handleFeaturePress} />
+        )}
+      </MapView>
+      <SightBottomSheet
+        featureSlug={selected?.properties.slug || ''}
+        visible={!!selected}
+        onClose={() => setSelected(null)}
+      />
+    </SafeAreaView>
   );
 }
 

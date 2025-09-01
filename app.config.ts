@@ -60,6 +60,7 @@ const config: ExpoConfig = {
         RNMapboxMapsDownloadToken: process.env.MAPBOX_DOWNLOAD_TOKEN,
       },
     ],
+    ['./plugins/disableUserScriptSandboxing', {configurations: ['Debug'], value: 'NO'}],
   ],
 
   experiments: {typedRoutes: true},
