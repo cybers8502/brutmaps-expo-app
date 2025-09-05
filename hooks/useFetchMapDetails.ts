@@ -8,7 +8,16 @@ interface CommonMap {
 }
 
 export function useFetchMapDetails(architect?: string, type?: string) {
-  const url = `${env.API_BASE_URL}${apiRoutes.objectsPost}`;
+  const baseUrl = `${env.API_BASE_URL}${apiRoutes.objectsPost}`;
+  const url = new URL(baseUrl);
 
-  return useApiQuery<CommonMap>(['mapDetails', architect, type], url);
+  if (architect) {
+    url.searchParams.append('architect', architect);
+  }
+
+  if (type) {
+    url.searchParams.append('type', type);
+  }
+
+  return useApiQuery<CommonMap>(['mapDetails', architect, type], url.toString());
 }

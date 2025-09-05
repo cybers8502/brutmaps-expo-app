@@ -1,7 +1,7 @@
 import {ShapeSource, CircleLayer, SymbolLayer} from '@rnmapbox/maps';
 import {clusterLayer, clusterCountLayer, unclutteredPointLayer} from './layers';
 import {useCallback} from 'react';
-import {OnPressEvent} from '@rnmapbox/maps/src/types/OnPressEvent';
+import type {Feature} from 'geojson';
 import {GeoJSONFeature, IMapLayers} from '@/components/MapLayers/MapLayers.interface';
 
 interface MapLayersProps {
@@ -9,9 +9,21 @@ interface MapLayersProps {
   onPressFeature?: (feature: GeoJSONFeature) => void;
 }
 
+type MapPressEvent = {
+  features: Feature[];
+  coordinates: {
+    latitude: number;
+    longitude: number;
+  };
+  point: {
+    x: number;
+    y: number;
+  };
+};
+
 export default function MapLayers({featureCollection, onPressFeature}: MapLayersProps) {
   const handlePress = useCallback(
-    (e: OnPressEvent) => {
+    (e: MapPressEvent) => {
       const feature = e.features?.[0] as GeoJSONFeature | undefined;
       if (feature && !('cluster' in (feature.properties as any))) {
         onPressFeature?.(feature);
@@ -26,16 +38,23 @@ export default function MapLayers({featureCollection, onPressFeature}: MapLayers
 
   return (
     <ShapeSource
-      id="earthquakes"
+      id='sights'
       shape={featureCollection}
       cluster
       clusterMaxZoomLevel={9}
       clusterRadius={50}
-      onPress={handlePress}
-    >
+      onPress={handlePress}>
       <CircleLayer id={clusterLayer.id} filter={clusterLayer.filter} style={clusterLayer.style} />
-      <SymbolLayer id={clusterCountLayer.id} filter={clusterCountLayer.filter} style={clusterCountLayer.style} />
-      <CircleLayer id={unclutteredPointLayer.id} filter={unclutteredPointLayer.filter} style={unclutteredPointLayer.style} />
+      <SymbolLayer
+        id={clusterCountLayer.id}
+        filter={clusterCountLayer.filter}
+        style={clusterCountLayer.style}
+      />
+      <CircleLayer
+        id={unclutteredPointLayer.id}
+        filter={unclutteredPointLayer.filter}
+        style={unclutteredPointLayer.style}
+      />
     </ShapeSource>
   );
 }

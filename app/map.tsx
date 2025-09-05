@@ -1,68 +1,29 @@
-import {SafeAreaView, StyleSheet, Text} from 'react-native';
-import Mapbox, {Camera, MapView} from '@rnmapbox/maps';
-import {env} from '@/lib/env';
-import {useFetchMapDetails} from '@/hooks/useFetchMapDetails';
-import MapLayers from '@/components/MapLayers/MapLayers';
-import {useCallback, useRef, useState} from 'react';
+import {SafeAreaView, StyleSheet} from 'react-native';
+import {useRef, useState} from 'react';
 import {GeoJSONFeature} from '@/components/MapLayers/MapLayers.interface';
 import SightBottomSheet from '@/components/SightBottomSheet/SightBottomSheet';
-
-Mapbox.setAccessToken(env.MAPBOX_PUBLIC_TOKEN || '');
+import MapSection from '@/components/MapLayers/MapView';
+import MapFilters from '@/components/MapFilters/MapFilters';
+import {Camera} from '@rnmapbox/maps';
 
 export default function MapScreen() {
-  const {data, isLoading, isError} = useFetchMapDetails();
-  const [selected, setSelected] = useState<GeoJSONFeature | null>(null);
-  const [styleLoaded, setStyleLoaded] = useState(false);
   const cameraRef = useRef<Camera>(null);
-
-  const handleStyleLoaded = useCallback(() => {
-    setStyleLoaded(true);
-  }, []);
-
-  const handleFeaturePress = useCallback(
-    (feature: GeoJSONFeature) => {
-      setSelected(feature);
-
-      if (!styleLoaded) return;
-
-      const coords = feature.geometry.coordinates;
-
-      cameraRef.current?.setCamera({
-        centerCoordinate: coords,
-        zoomLevel: 14,
-        animationDuration: 500,
-      });
-    },
-    [styleLoaded],
-  );
-
-  if (isError) {
-    return <Text>Server Error</Text>;
-  }
+  const [selected, setSelected] = useState<GeoJSONFeature | null>(null);
 
   return (
     <SafeAreaView style={styles.container}>
-      <MapView
-        styleURL={'mapbox://styles/mapbox/dark-v11'}
-        style={StyleSheet.absoluteFillObject}
-        onDidFinishLoadingStyle={handleStyleLoaded}
-        surfaceView={false}>
-        <Camera
-          ref={cameraRef}
-          defaultSettings={{
-            centerCoordinate: [2.347146829343072, 48.86199106320665],
-            zoomLevel: 10,
-            pitch: 0,
-          }}
-          centerCoordinate={[2.347146829343072, 48.86199106320665]}
-          zoomLevel={10}
-          pitch={0}
-          animationDuration={0}
-        />
-        {!isLoading && styleLoaded && (
-          <MapLayers featureCollection={data?.featureCollection} onPressFeature={handleFeaturePress} />
-        )}
-      </MapView>
+      <MapSection cameraRef={cameraRef} setSelected={setSelected} />
+      <MapFilters
+        cameraRef={cameraRef}
+        selectedType={''}
+        setSelectedType={function (v: string): void {
+          throw new Error('Function not implemented.');
+        }}
+        selectedArchitect={''}
+        setSelectedArchitect={function (v: string): void {
+          throw new Error('Function not implemented.');
+        }}
+      />
       <SightBottomSheet
         featureSlug={selected?.properties.slug || ''}
         visible={!!selected}
