@@ -12,13 +12,13 @@ import Header from '@/components/SightBottomSheet/Header';
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 const SHEET_PADDING_V = 16;
 
-type Props = {
+type SightBottomSheetProps = {
   featureSlug: string;
   visible: boolean;
   onClose: () => void;
 };
 
-export default function SightBottomSheet({featureSlug, visible, onClose}: Props) {
+export default function SightBottomSheet({featureSlug, visible, onClose}: SightBottomSheetProps) {
   const {data: objectPost, isLoading} = useFetchObjectPost(featureSlug);
   const insets = useSafeAreaInsets();
   const sheetRef = useRef<BottomSheetModal>(null);

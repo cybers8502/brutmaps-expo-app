@@ -12,11 +12,11 @@ export function useFetchMapDetails(architect?: string, type?: string) {
   const url = new URL(baseUrl);
 
   if (architect) {
-    url.searchParams.append('architect', architect);
+    url.searchParams.append('architects[]', architect);
   }
 
   if (type) {
-    url.searchParams.append('type', type);
+    url.searchParams.append('taxonomy_terms[]', type);
   }
 
   return useApiQuery<CommonMap>(['mapDetails', architect, type], url.toString());

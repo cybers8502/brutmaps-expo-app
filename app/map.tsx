@@ -9,20 +9,22 @@ import {Camera} from '@rnmapbox/maps';
 export default function MapScreen() {
   const cameraRef = useRef<Camera>(null);
   const [selected, setSelected] = useState<GeoJSONFeature | null>(null);
+  const [selectedType, setSelectedType] = useState<string>('');
+  const [selectedArchitect, setSelectedArchitect] = useState<string>('');
 
   return (
     <SafeAreaView style={styles.container}>
-      <MapSection cameraRef={cameraRef} setSelected={setSelected} />
+      <MapSection
+        cameraRef={cameraRef}
+        setSelected={setSelected}
+        filters={{architect: selectedArchitect, type: selectedType}}
+      />
       <MapFilters
         cameraRef={cameraRef}
-        selectedType={''}
-        setSelectedType={function (v: string): void {
-          throw new Error('Function not implemented.');
-        }}
-        selectedArchitect={''}
-        setSelectedArchitect={function (v: string): void {
-          throw new Error('Function not implemented.');
-        }}
+        selectedType={selectedType}
+        setSelectedType={setSelectedType}
+        selectedArchitect={selectedArchitect}
+        setSelectedArchitect={setSelectedArchitect}
       />
       <SightBottomSheet
         featureSlug={selected?.properties.slug || ''}

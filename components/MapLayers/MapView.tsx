@@ -11,10 +11,11 @@ Mapbox.setAccessToken(env.MAPBOX_PUBLIC_TOKEN || '');
 interface MapViewProps {
   cameraRef: RefObject<Camera | null>;
   setSelected: (feature: GeoJSONFeature | null) => void;
+  filters: {architect?: string; type?: string};
 }
 
-export default function MapSection({cameraRef, setSelected}: MapViewProps) {
-  const {data, isLoading, isError} = useFetchMapDetails();
+export default function MapSection({cameraRef, setSelected, filters}: MapViewProps) {
+  const {data, isLoading, isError} = useFetchMapDetails(filters.architect, filters.type);
   const [styleLoaded, setStyleLoaded] = useState(false);
 
   const handleStyleLoaded = useCallback(() => {
