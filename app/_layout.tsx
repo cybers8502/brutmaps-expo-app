@@ -12,8 +12,16 @@ export default function RootLayout() {
         <GestureHandlerRootView>
           <BottomSheetModalProvider>
             <Stack>
-              <Stack.Screen name='index' options={{title: 'Home'}} />
-              <Stack.Screen name='map' options={{title: 'Map'}} />
+              <Stack.Screen
+                name='index'
+                options={{
+                  title: 'Home',
+                  headerTransparent: true,
+                  headerTitle: 'HomeT',
+                  headerShadowVisible: false,
+                }}
+              />
+              <Stack.Screen name='map' options={{title: 'Map', headerShown: false}} />
             </Stack>
           </BottomSheetModalProvider>
         </GestureHandlerRootView>

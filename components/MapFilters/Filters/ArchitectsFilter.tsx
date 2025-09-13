@@ -21,7 +21,8 @@ export default function ArchitectsFilter({selectedArchitect, setSelectedArchitec
 
   const {data: searchResults, isLoading: loadingSearch} = useSearchArchitects(debouncedSearch);
   const {data: popularArchitects, isLoading: loadingPopular} = useFetchPopularArchitects();
-  /*const {data: preselectedArchitect} = useFetchArchitectBySlug(selectedArchitect);*/
+  const {data: preselectedArchitect, isLoading: loadingPreselectedArchitect} =
+    useFetchArchitectBySlug(selectedArchitect);
 
   const architectOptions: ArchitectsResponse[] = useMemo(() => {
     if (search.trim().length >= 2) {
@@ -36,7 +37,15 @@ export default function ArchitectsFilter({selectedArchitect, setSelectedArchitec
 
   return (
     <>
-      {selectedArchitect && <Pill onPick={() => {}}>{selectedArchitect}</Pill>}
+      {selectedArchitect && (
+        <View style={styles.resultWrap}>
+          {loadingPreselectedArchitect ? (
+            <Pill onPick={() => {}}>Loading...</Pill>
+          ) : (
+            <Pill onPick={() => {}}>{preselectedArchitect?.full_name}</Pill>
+          )}
+        </View>
+      )}
 
       <View style={styles.searchRow}>
         <TextInput
@@ -72,6 +81,10 @@ export default function ArchitectsFilter({selectedArchitect, setSelectedArchitec
 }
 
 const styles = StyleSheet.create({
+  resultWrap: {
+    alignItems: 'flex-start',
+  },
+
   searchRow: {
     flexDirection: 'row',
     alignItems: 'center',

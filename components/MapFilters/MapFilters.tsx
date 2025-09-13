@@ -1,11 +1,12 @@
 import React, {RefObject, useCallback, useMemo, useRef, useState} from 'react';
 import {View, Text, Pressable, StyleSheet} from 'react-native';
-import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
+import BottomSheet, {BottomSheetScrollView, BottomSheetView} from '@gorhom/bottom-sheet';
 import Mapbox from '@rnmapbox/maps';
 import MapGeocoding from '@/components/MapFilters/Geocoding/MapGeocoding';
 import ArchitectsFilter from '@/components/MapFilters/Filters/ArchitectsFilter';
 import ArchitectureStylesFilter from '@/components/MapFilters/Filters/ArchitectureStylesFilter';
 import IconFilter from '@/components/Icons/IconFilter';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type Coords = [number, number];
 
@@ -25,9 +26,10 @@ export default function MapFilters({
   setSelectedArchitect,
 }: MapFiltersProps) {
   const [open, setOpen] = useState(false);
+  const insets = useSafeAreaInsets();
 
   const sheetRef = useRef<BottomSheet>(null);
-  const snaps = useMemo(() => ['12%', '80%'], []);
+  const snaps = useMemo(() => ['15%', '80%'], []);
 
   const flyTo = useCallback(
     (center: Coords) => {
@@ -37,29 +39,43 @@ export default function MapFilters({
         animationDuration: 500,
       });
 
-      sheetRef.current?.collapse();
+      sheetRef.current?.close();
     },
     [cameraRef],
   );
 
+  const handlerSheetState = () => {
+    if (open) {
+      sheetRef.current?.close();
+    } else {
+      sheetRef.current?.snapToIndex(0);
+    }
+  };
+
   return (
     <>
-      <View style={styles.filterWrap}>
+      <View style={[styles.filterWrap, {top: insets.top + 16}]}>
         <MapGeocoding callBack={flyTo} />
 
-        <Pressable
-          style={[styles.fab, open ? styles.fabActive : null]}
-          onPress={() => {
-            setOpen((p) => !p);
-            if (!open) sheetRef.current?.expand();
-            else sheetRef.current?.collapse();
-          }}>
+        <Pressable style={[styles.fab, open ? styles.fabActive : null]} onPress={handlerSheetState}>
           <Text style={styles.fabText}>{open ? '×' : <IconFilter />}</Text>
         </Pressable>
       </View>
 
-      <BottomSheet ref={sheetRef} index={0} snapPoints={snaps} enablePanDownToClose={false}>
-        <BottomSheetView style={styles.container}>
+      <BottomSheet
+        ref={sheetRef}
+        index={-1}
+        snapPoints={snaps}
+        animateOnMount={false}
+        enablePanDownToClose
+        enableContentPanningGesture={false}
+        enableHandlePanningGesture
+        onChange={(i) => setOpen(i >= 0)}>
+        <BottomSheetScrollView
+          style={styles.container}
+          bounces={false}
+          contentContainerStyle={{paddingBottom: insets.bottom + 24}}
+          showsVerticalScrollIndicator>
           <View style={styles.filtersRow}>
             <ArchitectsFilter
               selectedArchitect={selectedArchitect}
@@ -67,7 +83,7 @@ export default function MapFilters({
             />
             <ArchitectureStylesFilter selectedType={selectedType} setSelectedType={setSelectedType} />
           </View>
-        </BottomSheetView>
+        </BottomSheetScrollView>
       </BottomSheet>
     </>
   );
@@ -77,7 +93,6 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: 8,
     paddingHorizontal: 16,
-    gap: 12,
   },
   filtersRow: {
     flexDirection: 'column',
@@ -85,7 +100,6 @@ const styles = StyleSheet.create({
   },
   filterWrap: {
     position: 'absolute',
-    top: 12,
     insetInline: 16,
     display: 'flex',
     flexDirection: 'row',
