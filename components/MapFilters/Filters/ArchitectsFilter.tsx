@@ -8,6 +8,7 @@ import {ArchitectsResponse} from '@/interfaces/Architects.interface';
 import Subtitle from '@/components/shared/Subtitle';
 import ArchitectsGrid from '@/components/MapFilters/Filters/ArchitectsFilter/ArchitectsGrid';
 import Pill from '@/components/shared/Pill';
+import PillSmaller from '@/components/shared/PillSmaller';
 
 interface ArchitectsFilterProps {
   selectedArchitect: string;
@@ -35,15 +36,23 @@ export default function ArchitectsFilter({selectedArchitect, setSelectedArchitec
     setSelectedArchitect(architect.id);
   };
 
+  const onClear = (): void => {
+    setSelectedArchitect('');
+  }
+
   return (
     <>
       {selectedArchitect && (
         <View style={styles.resultWrap}>
           {loadingPreselectedArchitect ? (
-            <Pill onPick={() => {}}>Loading...</Pill>
+            <PillSmaller onPick={() => {}}>Loading...</PillSmaller>
           ) : (
-            <Pill onPick={() => {}}>{preselectedArchitect?.full_name}</Pill>
+            <PillSmaller onPick={() => {}} active>{preselectedArchitect?.full_name}</PillSmaller>
           )}
+
+          <PillSmaller onPick={onClear}>
+            All Architects
+          </PillSmaller>
         </View>
       )}
 
@@ -82,7 +91,9 @@ export default function ArchitectsFilter({selectedArchitect, setSelectedArchitec
 
 const styles = StyleSheet.create({
   resultWrap: {
-    alignItems: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
   },
 
   searchRow: {

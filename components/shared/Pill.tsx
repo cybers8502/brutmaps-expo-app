@@ -41,6 +41,5 @@ const styles = StyleSheet.create({
   },
   pillTextActive: {
     color: COLORS.textWhite,
-    fontWeight: '700',
   },
 });

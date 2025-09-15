@@ -13,7 +13,7 @@ export default function DescriptionBlock({description}: DescriptionBlockProps) {
 
   const source = useMemo(() => (hasContent ? {html: description} : {html: ''}), [hasContent, description]);
 
-  const baseStyle = useMemo(() => ({color: '#fff', fontSize: 14, lineHeight: 20}), []);
+  const baseStyle = useMemo(() => ({ color: '#fff', fontSize: 14, lineHeight: 24}), []);
 
   if (!hasContent) return null;
 

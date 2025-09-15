@@ -1,5 +1,10 @@
 import {ArchitectsResponse} from '@/interfaces/Architects.interface';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, Image, Pressable, StyleSheet, Text, View} from 'react-native';
+
+function getCellWidth(columns: number, gap: number, padding: number = 0) {
+  const screenWidth = Dimensions.get("window").width;
+  return (screenWidth - padding * 2 - gap * (columns - 1)) / columns;
+}
 
 export default function ArchitectsGrid({
   data,
@@ -8,6 +13,7 @@ export default function ArchitectsGrid({
   data: ArchitectsResponse[];
   onPick: (a: ArchitectsResponse) => void;
 }) {
+
   return (
     <View style={styles.gridContainer}>
       {data.map((item) => (
@@ -39,9 +45,9 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    width: '49%',
     flexDirection: 'row',
     alignItems: 'center',
+    width: getCellWidth(2, 8, 16),
     gap: 8,
     padding: 8,
     backgroundColor: '#f8f8f8',

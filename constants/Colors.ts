@@ -5,7 +5,7 @@ const COLORS = {
   backgroundPrime: '#000',
 
   textPrime: '#000',
-  textWhite: '#DFDDD9',
+  textWhite: '#fff',
 
   placeholder: '#DFDDD9',
 };
