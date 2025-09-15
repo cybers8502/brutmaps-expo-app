@@ -1,12 +1,13 @@
 import React, {RefObject, useCallback, useMemo, useRef, useState} from 'react';
 import {View, Text, Pressable, StyleSheet} from 'react-native';
-import BottomSheet, {BottomSheetScrollView, BottomSheetView} from '@gorhom/bottom-sheet';
+import BottomSheet, {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 import Mapbox from '@rnmapbox/maps';
 import MapGeocoding from '@/components/MapFilters/Geocoding/MapGeocoding';
 import ArchitectsFilter from '@/components/MapFilters/Filters/ArchitectsFilter';
 import ArchitectureStylesFilter from '@/components/MapFilters/Filters/ArchitectureStylesFilter';
 import IconFilter from '@/components/Icons/IconFilter';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import COLORS from '@/constants/Colors';
 
 type Coords = [number, number];
 
@@ -114,15 +115,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 40,
-    backgroundColor: '#000',
+    backgroundColor: COLORS.backgroundPrime,
     borderRadius: '50%',
     aspectRatio: 1,
   },
   fabActive: {
-    backgroundColor: '#000',
+    backgroundColor: COLORS.backgroundPrime,
   },
   fabText: {
-    color: '#fff',
+    color: COLORS.textWhite,
     fontWeight: '700',
   },
 });

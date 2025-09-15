@@ -1,5 +1,6 @@
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import COLORS from '@/constants/Colors';
 
 interface HeaderProps {
   title: string;
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 4,
     borderRadius: 2,
-    backgroundColor: '#666',
+    backgroundColor: COLORS.componentHandlePrime,
     marginBottom: 8,
   },
   close: {
@@ -42,19 +43,19 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
   closeText: {
-    color: '#fff',
+    color: COLORS.textWhite,
     fontSize: 18,
   },
   title: {
     marginBottom: 8,
-    color: '#fff',
+    color: COLORS.textWhite,
     fontSize: 17,
     lineHeight: 22,
     fontWeight: '600',
   },
   secondText: {
     marginBottom: 16,
-    color: '#DFDDD9',
+    color: COLORS.textWhite,
     fontSize: 14,
     lineHeight: 14,
   },

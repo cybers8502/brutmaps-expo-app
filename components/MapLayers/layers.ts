@@ -26,8 +26,6 @@ export const unclutteredPointLayer = {
     circleRadius: 11,
     circleColor: [
       'case',
-      ['boolean', ['feature-state', 'hover'], false],
-      '#C61212',
       ['boolean', ['feature-state', 'isActive'], false],
       '#C61212',
       [

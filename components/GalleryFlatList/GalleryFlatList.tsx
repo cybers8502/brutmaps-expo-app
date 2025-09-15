@@ -3,6 +3,7 @@ import React, {useMemo, useState} from 'react';
 import {ImageItem} from '@/hooks/useFetchObjectPost';
 import ImageViewing from 'react-native-image-viewing';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import COLORS from '@/constants/Colors';
 
 interface GalleryFlatListProps {
   gallery: ImageItem[];
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
   closeText: {
-    color: '#fff',
+    color: COLORS.textWhite,
     fontSize: 18,
   },
   galleryContainer: {
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     zIndex: 1,
     elevation: 1,
-    backgroundColor: '#ccc',
+    backgroundColor: COLORS.backgroundWhite,
   },
   figcaptionWrap: {
     position: 'absolute',
@@ -129,6 +130,6 @@ const styles = StyleSheet.create({
   figcaption: {
     fontSize: 10,
     lineHeight: 15,
-    color: '#fff',
+    color: COLORS.backgroundWhite,
   },
 });

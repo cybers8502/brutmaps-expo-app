@@ -1,8 +1,9 @@
 import Svg, {Path} from 'react-native-svg';
 import React from 'react';
 import IconsProps from '@/components/Icons/IconsProps';
+import COLORS from '@/constants/Colors';
 
-export default function IconFilter({size = 18, color = 'white'}: IconsProps) {
+export default function IconFilter({size = 18, color = COLORS.textWhite}: IconsProps) {
   return (
     <Svg width={size} height={size} viewBox='0 0 18 18' fill='none'>
       <Path

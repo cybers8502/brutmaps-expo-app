@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {ActivityIndicator, StyleSheet, Text, TextInput, View} from 'react-native';
 import {useDebounce} from 'expo-dev-launcher/bundle/hooks/useDebounce';
 import {useFetchPopularArchitects} from '@/hooks/useFetchPopularArchitects';
@@ -7,8 +7,8 @@ import {useFetchArchitectBySlug} from '@/hooks/useFetchArchitectBySlug';
 import {ArchitectsResponse} from '@/interfaces/Architects.interface';
 import Subtitle from '@/components/shared/Subtitle';
 import ArchitectsGrid from '@/components/MapFilters/Filters/ArchitectsFilter/ArchitectsGrid';
-import Pill from '@/components/shared/Pill';
 import PillSmaller from '@/components/shared/PillSmaller';
+import COLORS from '@/constants/Colors';
 
 interface ArchitectsFilterProps {
   selectedArchitect: string;
@@ -38,7 +38,7 @@ export default function ArchitectsFilter({selectedArchitect, setSelectedArchitec
 
   const onClear = (): void => {
     setSelectedArchitect('');
-  }
+  };
 
   return (
     <>
@@ -47,12 +47,12 @@ export default function ArchitectsFilter({selectedArchitect, setSelectedArchitec
           {loadingPreselectedArchitect ? (
             <PillSmaller onPick={() => {}}>Loading...</PillSmaller>
           ) : (
-            <PillSmaller onPick={() => {}} active>{preselectedArchitect?.full_name}</PillSmaller>
+            <PillSmaller onPick={() => {}} active>
+              {preselectedArchitect?.full_name}
+            </PillSmaller>
           )}
 
-          <PillSmaller onPick={onClear}>
-            All Architects
-          </PillSmaller>
+          <PillSmaller onPick={onClear}>All Architects</PillSmaller>
         </View>
       )}
 
@@ -66,7 +66,7 @@ export default function ArchitectsFilter({selectedArchitect, setSelectedArchitec
           autoCapitalize='none'
           autoCorrect={false}
           clearButtonMode='always'
-          cursorColor={'#f00'}
+          cursorColor={COLORS.textSecondary}
         />
       </View>
 
@@ -105,16 +105,16 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     borderWidth: 1,
-    borderColor: '#e5e5e5',
+    borderColor: COLORS.inputWhiteBorder,
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 10,
     fontSize: 16,
-    backgroundColor: '#fafafa',
+    backgroundColor: COLORS.inputWhiteBackground,
   },
 
   empty: {
     marginTop: 8,
-    color: '#666',
+    color: COLORS.inputWhiteEmpty,
   },
 });

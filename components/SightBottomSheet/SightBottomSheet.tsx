@@ -8,6 +8,7 @@ import {useFetchObjectPost} from '@/hooks/useFetchObjectPost';
 import DescriptionBlock from '@/components/DescriptionBlock/DescriptionBlock';
 import GalleryFlatList from '@/components/GalleryFlatList/GalleryFlatList';
 import Header from '@/components/SightBottomSheet/Header';
+import COLORS from '@/constants/Colors';
 
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 const SHEET_PADDING_V = 16;
@@ -77,7 +78,7 @@ export default function SightBottomSheet({featureSlug, visible, onClose}: SightB
       {isLoading ? (
         <View style={{paddingHorizontal: 16, paddingVertical: 24, alignItems: 'center'}}>
           <ActivityIndicator />
-          <Text style={{color: '#DFDDD9', marginTop: 12}}>Loading</Text>
+          <Text style={{color: COLORS.textPrime, marginTop: 12}}>Loading</Text>
         </View>
       ) : (
         <BottomSheetScrollView
@@ -111,19 +112,19 @@ export default function SightBottomSheet({featureSlug, visible, onClose}: SightB
 
 const styles = StyleSheet.create({
   sheetBg: {
-    backgroundColor: '#1C1C1C',
+    backgroundColor: COLORS.backgroundWhite,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
   },
   headerContainer: {
     paddingBottom: 8,
     zIndex: 2,
-    shadowColor: '#000',
+    shadowColor: COLORS.shadowPrime,
     shadowRadius: 12,
     shadowOffset: {width: 0, height: 6},
   },
   secondText: {
-    color: '#DFDDD9',
+    color: COLORS.textPrime,
     fontSize: 14,
     lineHeight: 14,
   },
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 4,
     borderRadius: 2,
-    backgroundColor: '#666',
+    backgroundColor: COLORS.componentHandlePrime,
     marginBottom: 16,
   },
 });

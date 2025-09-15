@@ -1,5 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import {Link} from 'expo-router';
+import COLORS from '@/constants/Colors';
+import FONT_SiZE from '@/constants/Text';
 
 export default function Index() {
   return (
@@ -15,16 +17,16 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#25292e',
+    backgroundColor: COLORS.backgroundPrime,
     alignItems: 'center',
     justifyContent: 'center',
   },
   text: {
-    color: '#fff',
+    color: COLORS.textWhite,
   },
   button: {
-    fontSize: 20,
+    fontSize: FONT_SiZE.primary,
     textDecorationLine: 'underline',
-    color: '#fff',
+    color: COLORS.textWhite,
   },
 });

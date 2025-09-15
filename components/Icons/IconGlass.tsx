@@ -1,8 +1,9 @@
 import Svg, {Path} from 'react-native-svg';
 import React from 'react';
 import IconsProps from '@/components/Icons/IconsProps';
+import COLORS from '@/constants/Colors';
 
-export default function IconGlass({size = 19, color = '#DFDDD9'}: IconsProps) {
+export default function IconGlass({size = 19, color = COLORS.textWhite}: IconsProps) {
   return (
     <Svg width={size} height={size} viewBox='0 0 19 19' fill='none'>
       <Path
