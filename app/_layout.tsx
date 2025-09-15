@@ -1,31 +1,29 @@
-import {Stack} from 'expo-router';
+import {useState} from 'react';
+import {Slot} from 'expo-router';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {QueryClientProvider} from '@tanstack/react-query';
-import {queryClient} from '@/utils/queryClient';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {View, StyleSheet} from 'react-native';
 
 export default function RootLayout() {
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
     <SafeAreaProvider>
       <QueryClientProvider client={queryClient}>
-        <GestureHandlerRootView>
+        <GestureHandlerRootView style={{flex: 1}}>
           <BottomSheetModalProvider>
-            <Stack>
-              <Stack.Screen
-                name='index'
-                options={{
-                  title: 'Home',
-                  headerTransparent: true,
-                  headerTitle: 'HomeT',
-                  headerShadowVisible: false,
-                }}
-              />
-              <Stack.Screen name='map' options={{title: 'Map', headerShown: false}} />
-            </Stack>
+            <View style={styles.container}>
+              <Slot />
+            </View>
           </BottomSheetModalProvider>
         </GestureHandlerRootView>
       </QueryClientProvider>
     </SafeAreaProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {flex: 1},
+});
