@@ -1,6 +1,6 @@
 import {useQuery, UseQueryResult} from '@tanstack/react-query';
 
-interface ApiResponse<T> {
+export interface ApiResponse<T> {
   status: string;
   data?: T;
   message?: string;

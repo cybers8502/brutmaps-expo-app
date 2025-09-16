@@ -29,7 +29,7 @@ export default function TabsSLayout() {
         options={{
           title: 'Objects',
           tabBarIcon: ({focused, size}) => <Ionicons name={focused ? 'pin' : 'pin-outline'} size={size} />,
-          headerTitle: 'Objects',
+          headerShown: false,
         }}
       />
 

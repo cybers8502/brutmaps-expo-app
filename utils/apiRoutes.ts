@@ -22,6 +22,7 @@ const apiRoutes = {
   editProfile: '/wp-json/v1/profile/edit-profile',
   userFavorites: '/wp-json/v1/user/favorites',
   userToggleFavorites: '/wp-json/v1/user/favorites/toggle',
+
   mapBoxGeocoding: 'https://api.mapbox.com/geocoding/v5/mapbox.places/',
 };
 

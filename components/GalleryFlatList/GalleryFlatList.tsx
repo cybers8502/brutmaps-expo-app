@@ -4,6 +4,7 @@ import {ImageItem} from '@/hooks/useFetchObjectPost';
 import ImageViewing from 'react-native-image-viewing';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import COLORS from '@/constants/Colors';
+import PictureInfo from '@/components/shared/PictureInfo';
 
 interface GalleryFlatListProps {
   gallery: ImageItem[];
@@ -30,16 +31,7 @@ export default function GalleryFlatList({gallery}: GalleryFlatListProps) {
               setIndex(index);
               setVisible(true);
             }}>
-            <View style={styles.galleryItem}>
-              <Image source={{uri: item.url}} style={styles.galleryImage} />
-              {!!item?.author?.figcaption && (
-                <View style={styles.figcaptionWrap}>
-                  <Text style={styles.figcaption} numberOfLines={1} ellipsizeMode='tail'>
-                    {item.author.figcaption}
-                  </Text>
-                </View>
-              )}
-            </View>
+            <PictureInfo uri={item.url} figcaption={item.author.figcaption} />
           </Pressable>
         )}
         getItemLayout={(_, index) => ({
