@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 6},
   },
   secondText: {
-    color: COLORS.textPrime,
+    color: COLORS.textWhite,
     fontSize: 14,
     lineHeight: 14,
   },

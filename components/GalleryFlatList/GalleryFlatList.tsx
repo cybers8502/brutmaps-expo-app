@@ -1,10 +1,10 @@
-import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useMemo, useState} from 'react';
 import {ImageItem} from '@/hooks/useFetchObjectPost';
 import ImageViewing from 'react-native-image-viewing';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import COLORS from '@/constants/Colors';
-import PictureInfo from '@/components/shared/PictureInfo';
+import PictureCard from '@/components/shared/PictureCard';
 
 interface GalleryFlatListProps {
   gallery: ImageItem[];
@@ -31,7 +31,12 @@ export default function GalleryFlatList({gallery}: GalleryFlatListProps) {
               setIndex(index);
               setVisible(true);
             }}>
-            <PictureInfo uri={item.url} figcaption={item.author.figcaption} />
+            <PictureCard
+              uri={item.url}
+              figcaption={item.author.figcaption}
+              containerStyle={{marginRight: 16}}
+              imageStyle={{borderRadius: 10}}
+            />
           </Pressable>
         )}
         getItemLayout={(_, index) => ({

@@ -1,10 +1,10 @@
 import {SafeAreaView, StyleSheet} from 'react-native';
-import ObjectsFlatList from '@/components/ObjectsFlatList/ObjectsFlatList';
+import ObjectsList from '@/components/ObjectsList/ObjectsList';
 
 export default function ObjectsScreen() {
   return (
     <SafeAreaView style={styles.container}>
-      <ObjectsFlatList />
+      <ObjectsList />
     </SafeAreaView>
   );
 }
