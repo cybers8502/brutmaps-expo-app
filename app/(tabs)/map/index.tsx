@@ -1,8 +1,8 @@
 import {SafeAreaView, StyleSheet} from 'react-native';
 import {useRef, useState} from 'react';
-import {GeoJSONFeature} from '@/components/MapLayers/MapLayers.interface';
+import {GeoJSONFeature} from '@/components/MapFrame/MapLayers.interface';
 import SightBottomSheet from '@/components/SightBottomSheet/SightBottomSheet';
-import MapSection from '@/components/MapLayers/MapView';
+import MapFrame from '@/components/MapFrame';
 import MapFilters from '@/components/MapFilters/MapFilters';
 import {Camera} from '@rnmapbox/maps';
 
@@ -14,7 +14,7 @@ export default function MapScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <MapSection
+      <MapFrame
         cameraRef={cameraRef}
         setSelected={setSelected}
         filters={{architect: selectedArchitect, type: selectedType}}

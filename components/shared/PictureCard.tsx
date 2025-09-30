@@ -5,6 +5,8 @@ import COLORS from '@/constants/Colors';
 interface PictureInfoProps {
   uri?: string;
   figcaption?: string;
+  height?: number;
+  width?: number;
   size?: number;
   resizeMode?: 'cover' | 'contain' | 'stretch' | 'center';
   containerStyle?: ViewStyle;
@@ -15,6 +17,8 @@ interface PictureInfoProps {
 export default function PictureCard({
   uri,
   figcaption,
+                                      height,
+  width,
   size = 220,
   resizeMode = 'cover',
   containerStyle,
@@ -22,10 +26,10 @@ export default function PictureCard({
   captionStyle,
 }: PictureInfoProps) {
   return (
-    <View style={[styles.container, {height: size, width: size}, containerStyle]}>
+    <View style={[styles.container, {height: height || size, width: width || size}, containerStyle]}>
       <Image
         source={uri ? {uri} : require('@/assets/images/placeholder.png')}
-        style={[styles.image, {width: size, height: size}, imageStyle]}
+        style={[styles.image, {height: height || size, width: width || size}, imageStyle]}
         resizeMode={resizeMode}
       />
 

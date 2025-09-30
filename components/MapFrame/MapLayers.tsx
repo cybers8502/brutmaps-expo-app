@@ -2,7 +2,7 @@ import {ShapeSource, CircleLayer, SymbolLayer} from '@rnmapbox/maps';
 import {clusterLayer, clusterCountLayer, unclutteredPointLayer} from './layers';
 import {useCallback} from 'react';
 import type {Feature} from 'geojson';
-import {GeoJSONFeature, IMapLayers} from '@/components/MapLayers/MapLayers.interface';
+import {GeoJSONFeature, IMapLayers} from '@/components/MapView/MapLayers.interface';
 
 interface MapLayersProps {
   featureCollection?: IMapLayers;

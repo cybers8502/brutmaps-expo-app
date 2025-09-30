@@ -1,9 +1,9 @@
 import React, {useMemo, useState} from 'react';
 import {ActivityIndicator, StyleSheet, Text, TextInput, View} from 'react-native';
 import {useDebounce} from 'expo-dev-launcher/bundle/hooks/useDebounce';
-import {useFetchPopularArchitects} from '@/hooks/useFetchPopularArchitects';
-import {useSearchArchitects} from '@/hooks/useSearchArchitects';
-import {useFetchArchitectBySlug} from '@/hooks/useFetchArchitectBySlug';
+import {useFetchPopularArchitects} from '@/components/MapFilters/hooks/useFetchPopularArchitects';
+import {useSearchArchitects} from '@/components/MapFilters/hooks/useSearchArchitects';
+import {useFetchArchitectBySlug} from '@/components/MapFilters/hooks/useFetchArchitectBySlug';
 import {ArchitectsResponse} from '@/interfaces/Architects.interface';
 import Subtitle from '@/components/shared/Subtitle';
 import ArchitectsGrid from '@/components/MapFilters/Filters/ArchitectsFilter/ArchitectsGrid';

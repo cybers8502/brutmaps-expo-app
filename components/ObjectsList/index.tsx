@@ -1,10 +1,19 @@
-import {StyleSheet, View, Text, FlatList, ActivityIndicator} from 'react-native';
-import {useCallback, useMemo, useRef} from 'react';
-import {PhotoPost, useFetchObjectsGallery} from '@/hooks/useFetchObjectsGallery';
-import ObjectsItem from '@/components/ObjectsList/ObjectsItem';
+import {StyleSheet, FlatList, Dimensions} from 'react-native';
+import {useCallback, useRef} from 'react';
+import {PhotoPost, useFetchObjectsGallery} from '@/components/ObjectsList/hooks/useFetchObjectsGallery';
+import ObjectsListItem from '@/components/ObjectsList/ObjectsListItem';
+import ObjectsListLoader from '@/components/ObjectsList/ObjectsListLoader';
+import ObjectsListEmpty from '@/components/ObjectsList/ObjectsListEmpty';
 
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 24;
 const PREFETCH_THRESHOLD = 5; // за скільки айтемів до кінця підвантажувати
+
+function getCellWidth(columns: number, gap: number, padding: number = 0) {
+  const screenWidth = Dimensions.get('window').width;
+  return (screenWidth - padding * 2 - gap * (columns - 1)) / columns;
+}
+
+//TODO fix eslinter bugs
 
 export default function ObjectsList() {
   const {data, isLoading, isError, refetch, fetchNextPage, hasNextPage, isFetchingNextPage, isRefetching} =
@@ -14,30 +23,19 @@ export default function ObjectsList() {
 
   const keyExtractor = useCallback((item: PhotoPost) => item.post_id, []);
 
-  const renderItem = useCallback(({item}: {item: PhotoPost}) => <ObjectsItem item={item} />, []);
+  const renderItem = useCallback(({item}: {item: PhotoPost}) => <ObjectsListItem item={item} />, []);
 
-  const ListEmpty = useMemo(
-    () =>
-      isLoading ? (
-        <ActivityIndicator size='large' style={{marginTop: 24}} />
-      ) : isError ? (
-        <Text style={styles.center}>Something was going wrong. Try again later.</Text>
-      ) : (
-        <Text style={styles.center}>Nothing to show.</Text>
-      ),
-    [isLoading, isError],
-  );
-
-  const getItemLayout = useCallback(
-    (_: any, index: number) => ({
-      length: 200,
-      offset: 200 * index,
+  const getItemLayout = useCallback((_: any, index: number) => {
+    const row = Math.floor(index / 3);
+    return {
+      length: getCellWidth(3, 0, 0) * 1.6,
+      offset: getCellWidth(3, 0, 0) * 1.6 * row,
       index,
-    }),
-    [],
-  );
+    };
+  }, []);
 
   const loadMore = useCallback(() => {
+    console.log('load more function is triggered');
     if (hasNextPage && !isFetchingNextPage) fetchNextPage();
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
@@ -85,22 +83,16 @@ export default function ObjectsList() {
       renderItem={renderItem} // твій компонент картки
       numColumns={3}
       // UX
-      contentContainerStyle={styles.container}
-      removeClippedSubviews
-      windowSize={2}
-      initialNumToRender={PAGE_SIZE}
-      maxToRenderPerBatch={PREFETCH_THRESHOLD}
-      updateCellsBatchingPeriod={50}
-      getItemLayout={getItemLayout} // якщо є фіксована висота
+      style={styles.container}
+      removeClippedSubviews //прибирає з екрану елементи, які вийшли за межі viewport (обрізані).
+      windowSize={2} //визначає, скільки “вікон” екрану вперед/назад FlatList буде тримати в пам’яті. (тільки поточний viewport/поточний + один екран вперед/назад / агресивне кешування, зручно коли користувач швидко скролить.)
+      initialNumToRender={PAGE_SIZE} //скільки елементів відрендерити одразу при першому показі списку.
+      maxToRenderPerBatch={PREFETCH_THRESHOLD} //максимальна кількість айтемів, які FlatList може відрендерити за один цикл.
+      updateCellsBatchingPeriod={50} //час (мс) між партіями рендеру айтемів
+      getItemLayout={getItemLayout} // дозволяє FlatList швидко порахувати позицію айтемів, якщо всі вони мають однакову висоту.
       // завантаження
-      ListEmptyComponent={ListEmpty} // коли немає даних
-      ListFooterComponent={
-        isFetchingNextPage ? (
-          <View style={{paddingVertical: 16, backgroundColor: '#000'}}>
-            <ActivityIndicator size='small' />
-          </View>
-        ) : null
-      }
+      ListEmptyComponent={<ObjectsListEmpty isLoading={isLoading} isError={isError} />} // коли немає даних
+      ListFooterComponent={<ObjectsListLoader visible={isFetchingNextPage} />}
       // infinite scroll
       onEndReachedThreshold={0.5} // за півекрана до кінця
       onEndReached={loadMore} // викликає fetchNextPage
@@ -116,10 +108,5 @@ export default function ObjectsList() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  center: {
-    padding: 16,
-    textAlign: 'center',
-    color: '#444',
   },
 });

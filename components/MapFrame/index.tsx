@@ -1,9 +1,9 @@
 import {StyleSheet, Text} from 'react-native';
 import Mapbox, {Camera, MapView} from '@rnmapbox/maps';
-import MapLayers from '@/components/MapLayers/MapLayers';
-import {useFetchMapDetails} from '@/hooks/useFetchMapDetails';
+import MapLayers from '@/components/MapFrame/MapLayers';
+import {useFetchMapDetails} from '@/components/MapFrame/hooks/useFetchMapDetails';
 import {RefObject, useCallback, useState} from 'react';
-import {GeoJSONFeature} from '@/components/MapLayers/MapLayers.interface';
+import {GeoJSONFeature} from '@/components/MapFrame/MapLayers.interface';
 import {env} from '@/lib/env';
 
 Mapbox.setAccessToken(env.MAPBOX_PUBLIC_TOKEN || '');
@@ -14,7 +14,7 @@ interface MapViewProps {
   filters: {architect?: string; type?: string};
 }
 
-export default function MapSection({cameraRef, setSelected, filters}: MapViewProps) {
+export default function MapFrame({cameraRef, setSelected, filters}: MapViewProps) {
   const {data, isLoading, isError} = useFetchMapDetails(filters.architect, filters.type);
   const [styleLoaded, setStyleLoaded] = useState(false);
 

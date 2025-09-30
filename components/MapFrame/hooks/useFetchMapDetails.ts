@@ -1,6 +1,6 @@
 import {env} from '@/lib/env';
 import apiRoutes from '@/utils/apiRoutes';
-import {IMapLayers} from '@/components/MapLayers/MapLayers.interface';
+import {IMapLayers} from '@/components/MapFrame/MapLayers.interface';
 import {useApiQuery} from '@/hooks/useApiQuery';
 
 interface CommonMap {

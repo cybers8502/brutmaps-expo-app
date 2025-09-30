@@ -1,5 +1,5 @@
 import {SafeAreaView, StyleSheet} from 'react-native';
-import ObjectsList from '@/components/ObjectsList/ObjectsList';
+import ObjectsList from '@/components/ObjectsList';
 
 export default function ObjectsScreen() {
   return (

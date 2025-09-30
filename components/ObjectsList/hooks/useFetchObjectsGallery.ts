@@ -2,7 +2,6 @@ import {env} from '@/lib/env';
 import apiRoutes from '@/utils/apiRoutes';
 import {useInfiniteQuery} from '@tanstack/react-query';
 import {ApiResponse} from '@/hooks/useApiQuery';
-import {logger} from 'react-native-reanimated/lib/typescript/logger';
 
 interface ImageAuthor {
   id: number;
@@ -44,6 +43,7 @@ async function fetchPage(page: number, pageSize = 12): Promise<ObjectsGallery> {
 
   const res = await fetch(`${baseUrl}?${query}`);
   const json: ApiResponse<ObjectsGallery> = await res.json();
+
   if (json.status === 'success' && json.data) return json.data;
   throw new Error(json.message || 'Failed to fetch data');
 }
@@ -56,10 +56,12 @@ export function useFetchObjectsGallery(pageSize = 6) {
     getNextPageParam: (lastPage) => {
       const current = Number(lastPage.current_page);
       const total = Number(lastPage.total_pages);
-      console.log('getNextPageParam', current, total);
       return current < total ? current + 1 : undefined;
     },
     staleTime: 5 * 60 * 1000,
     gcTime: 24 * 60 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   });
 }
